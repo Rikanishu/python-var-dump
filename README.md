@@ -102,14 +102,14 @@ you can pass max_depth argument for customize output depth level:
 
 default max depth level is 12
 
-#### Inject feature: ####
-you can monkey-path python builtins for crossmodule var_dump access:
+#### Inject Feature: ####
+you can monkey-patch python builtins for crossmodule var_dump access:
 
 	from var_dump import inject
 	inject()
 
 	# now function can be used in every module without importing, just call var_dump:
-	
+
 	# other module:
 	var_dump(obj)
 
