@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 from __future__ import print_function
 from types import NoneType
 
@@ -28,17 +30,21 @@ def display(o, space, num, key, typ):
         l.append(num)
 
     if type(o) in (tuple, list, dict, int, str, float, long, bool, NoneType, unicode):
-        st += "%s(%s) "
-        l.append(type(o).__name__)
-
-        if type(o) in (int, float, long, bool, NoneType):
-            l.append(o)
+        if type(o) == NoneType:
+            st += "%s "
+            l.append("None")
         else:
-            l.append(len(o))
+            st += "%s(%s) "
+            l.append(type(o).__name__)
 
-        if type(o) in (str, unicode):
-            st += '"%s"'
-            l.append(o)
+            if type(o) in (int, float, long, bool, NoneType):
+                l.append(o)
+            else:
+                l.append(len(o))
+
+            if type(o) in (str, unicode):
+                st += '"%s"'
+                l.append(o)
 
     elif isinstance(o, object):
         st += "object(%s) (%d)"
@@ -48,7 +54,7 @@ def display(o, space, num, key, typ):
     print(st % tuple(l))
 
 
-def dump(o, space, num, key, typ):
+def dump(o, space, num, key, typ, depth=0, max_depth=None):
 
     if type(o) in (str, int, float, long, bool, NoneType, unicode):
         display(o, space, num, key, typ)
@@ -63,19 +69,27 @@ def dump(o, space, num, key, typ):
             typ = object
         for i in o:
             space += TAB_SIZE
-            if type(o) is dict:
-                dump(o[i], space, num, i, typ)
-            else:
-                dump(i, space, num, '', typ)
-            num += 1
+            if not max_depth or depth < max_depth:
+                if type(o) is dict:
+                    dump(o[i], space, num, i, typ, depth + 1, max_depth)
+                else:
+                    dump(i, space, num, '', typ, depth + 1, max_depth)
+                num += 1
             space -= TAB_SIZE
 
 
-def var_dump(*obs):
+def var_dump(*args, **kwargs):
     """
       shows structured information of a object, list, tuple etc
     """
     i = 0
-    for x in obs:
-        dump(x, 0, i, '', object)
+    if not 'max_depth' in kwargs:
+        kwargs['max_depth'] = 12
+    for x in args:
+        dump(x, 0, i, '', object, **kwargs)
         i += 1
+
+
+def inject():
+    import __builtin__
+    __builtin__.var_dump = var_dump

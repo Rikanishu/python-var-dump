@@ -94,5 +94,23 @@ you can pass more than one argument:
 	        boo => bool(True) 
 	        barProp => str(18) "I'm from Bar class"
 
+#### Max Depth Option: ####
+you can pass max_depth argument for customize output depth level:
+
+	var_dump(obj1, max_depth=4)
+	var_dump(obj1, obj2, max_depth=22)
+
+default max depth level is 12
+
+#### Inject feature: ####
+you can monkey-path python builtins for crossmodule var_dump access:
+
+	from var_dump import inject
+	inject()
+
+	# now function can be used in every module without importing, just call var_dump:
+	
+	# other module:
+	var_dump(obj)
 
 **License: BSD License**
