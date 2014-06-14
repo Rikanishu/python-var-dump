@@ -48,7 +48,11 @@ def display(o, space, num, key, typ):
 
     elif isinstance(o, object):
         st += "object(%s) (%d)"
-        l.append(o.__class__.__name__)
+        class_name = o.__class__.__name__
+        class_module = o.__class__.__module__
+        if class_module != "__builtin__":
+            class_name = class_module + "." + class_name
+        l.append(class_name)
         l.append(len(getattr(o, '__dict__', {})))
 
     print(st % tuple(l))
