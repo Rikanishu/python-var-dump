@@ -8,7 +8,7 @@ setup(
     license='MIT',
     author='Shamim Hasnath',
     author_email='shamim@hasnath.net',
-    forked_by='Rikanishu <adantess@gmail.com>'
+    forked_by='Rikanishu <rikanishu@gmail.com>',
     description='PHP like var_dump for python',
     download_url='http://github.com/Rikanishu/python-var_dump/tarball',
     classifiers=[
