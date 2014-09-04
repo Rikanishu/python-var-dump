@@ -105,8 +105,7 @@ default max depth level is 12
 #### Inject Feature: ####
 you can monkey-patch python builtins for crossmodule var_dump access:
 
-	from var_dump import inject
-	inject()
+	import var_dump.inject
 
 	# now function can be used in every module without importing, just call var_dump:
 
